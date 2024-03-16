@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/rice-product/pom.xml" />
+        <option value="$PROJECT_DIR$/rice-coupon/pom.xml" />
+        <option value="$PROJECT_DIR$/rice-member/pom.xml" />
+        <option value="$PROJECT_DIR$/rice-order/pom.xml" />
+        <option value="$PROJECT_DIR$/rice-ware/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
