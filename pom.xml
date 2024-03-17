@@ -5,7 +5,6 @@
     <groupId>com.rice</groupId>
     <artifactId>riceearmall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>rice-ware</name>
     <description>聚合服务</description>
     <packaging>pom</packaging>
 
@@ -15,6 +14,8 @@
         <module>rice-member</module>
         <module>rice-order</module>
         <module>rice-product</module>
+        <module>renren-generator</module>
+        <module>rice-common</module>
     </modules>
 
 </project>

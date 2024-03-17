@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/RiceEarMall.iml" filepath="$PROJECT_DIR$/.idea/RiceEarMall.iml" />
+      <module fileurl="file://$PROJECT_DIR$/renren-fast/renren-fast.iml" filepath="$PROJECT_DIR$/renren-fast/renren-fast.iml" />
+      <module fileurl="file://$PROJECT_DIR$/renren-generator/renren-generator.iml" filepath="$PROJECT_DIR$/renren-generator/renren-generator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rice-common/rice-common.iml" filepath="$PROJECT_DIR$/rice-common/rice-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/rice-coupon/rice-coupon.iml" filepath="$PROJECT_DIR$/rice-coupon/rice-coupon.iml" />
       <module fileurl="file://$PROJECT_DIR$/rice-member/rice-member.iml" filepath="$PROJECT_DIR$/rice-member/rice-member.iml" />
       <module fileurl="file://$PROJECT_DIR$/rice-order/rice-order.iml" filepath="$PROJECT_DIR$/rice-order/rice-order.iml" />
