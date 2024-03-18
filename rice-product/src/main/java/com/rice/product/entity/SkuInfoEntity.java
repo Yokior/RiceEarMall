@@ -13,7 +13,7 @@ import lombok.Data;
  * 
  * @author yokior
  * @email 123456@123.com
- * @date 2024-03-17 16:36:01
+ * @date 2024-03-18 16:10:00
  */
 @Data
 @TableName("pms_sku_info")
