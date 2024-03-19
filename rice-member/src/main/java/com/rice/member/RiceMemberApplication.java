@@ -2,7 +2,9 @@ package com.rice.member;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
+@EnableFeignClients(basePackages = {"com.rice.member.feign"})
 @SpringBootApplication
 public class RiceMemberApplication
 {
