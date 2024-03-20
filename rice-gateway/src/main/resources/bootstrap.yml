@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: rice-gateway
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        namespace: dev02
+        group: rice-mall-project
+      config:
+        namespace: dev02
+        group: rice-mall-project
+        file-extension: yaml
+        refresh-enabled: true
+#        shared-configs:
+#          - data-id: datasource-${spring.profiles.active}.yaml
+#            group: rice-mall-common
+#            refresh: true
+#          - data-id: mybatisplus-${spring.profiles.active}.yaml
+#            group: rice-mall-common
+#            refresh: true
+#        extension-configs:
+#          - data-id: content-service-${spring.profiles.active}.yaml
+#            group: xuecheng-plus-project
+#            refresh: true
+
+
+
+
+

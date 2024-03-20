@@ -1,0 +1,24 @@
+#spring:
+#  cloud:
+#    gateway:
+#      routes:
+#      - id: rice-coupon
+#        uri: lb://rice-coupon
+#        predicates:
+#          - Path=/coupon/**
+#      - id: rice-member
+#        uri: lb://rice-member
+#        predicates:
+#          - Path=/member/**
+#      - id: rice-order
+#        uri: lb://rice-order
+#        predicates:
+#          - Path=/order/**
+#      - id: rice-product
+#        uri: lb://rice-product
+#        predicates:
+#          - Path=/product/**
+#      - id: rice-ware
+#        uri: lb://rice-ware
+#        predicates:
+#          - Path=/ware/**

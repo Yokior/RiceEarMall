@@ -14,6 +14,7 @@
         <module name="rice-product" />
         <module name="rice-ware" />
         <module name="renren-fast" />
+        <module name="rice-gateway" />
         <module name="renren-generator" />
       </profile>
     </annotationProcessing>
@@ -22,6 +23,7 @@
       <module name="renren-generator" target="1.8" />
       <module name="rice-common" target="8" />
       <module name="rice-coupon" target="1.8" />
+      <module name="rice-gateway" target="1.8" />
       <module name="rice-member" target="1.8" />
       <module name="rice-order" target="1.8" />
       <module name="rice-product" target="1.8" />
