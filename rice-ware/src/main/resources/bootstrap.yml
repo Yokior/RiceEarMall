@@ -15,9 +15,6 @@ spring:
         file-extension: yaml
         refresh-enabled: true
         shared-configs:
-          - data-id: datasource-${spring.profiles.active}.yaml
-            group: rice-mall-common
-            refresh: true
           - data-id: mybatisplus-${spring.profiles.active}.yaml
             group: rice-mall-common
             refresh: true
