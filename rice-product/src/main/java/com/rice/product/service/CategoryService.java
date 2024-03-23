@@ -19,5 +19,11 @@ public interface CategoryService extends IService<CategoryEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     List<CategoryEntity> listWithTree();
+
+    /**
+     * 批量删除菜单
+     * @param menuList
+     */
+    void removeMenuByIds(List<Long> menuList);
 }
 

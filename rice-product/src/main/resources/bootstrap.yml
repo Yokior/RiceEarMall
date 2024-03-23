@@ -22,8 +22,11 @@ spring:
 #          - data-id: content-service-${spring.profiles.active}.yaml
 #            group: xuecheng-plus-project
 #            refresh: true
-
-
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-value: 0
+      logic-not-delete-value: 1
 
 
 
