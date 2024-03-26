@@ -51,7 +51,7 @@ public class CategoryController
     {
         CategoryEntity category = categoryService.getById(catId);
 
-        return R.ok().put("category", category);
+        return R.ok().put("data", category);
     }
 
     /**
@@ -72,6 +72,17 @@ public class CategoryController
     public R update(@RequestBody CategoryEntity category)
     {
         categoryService.updateById(category);
+
+        return R.ok();
+    }
+
+    /**
+     * 修改
+     */
+    @RequestMapping("/update/sort")
+    public R updateSort(@RequestBody List<CategoryEntity> category)
+    {
+        categoryService.updateBatchById(category);
 
         return R.ok();
     }
