@@ -17,6 +17,7 @@
         <module name="renren-fast" />
         <module name="rice-gateway" />
         <module name="renren-generator" />
+        <module name="rice-third-party" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -28,6 +29,7 @@
       <module name="rice-member" target="1.8" />
       <module name="rice-order" target="1.8" />
       <module name="rice-product" target="1.8" />
+      <module name="rice-third-party" target="1.8" />
       <module name="rice-ware" target="1.8" />
       <module name="riceear-product" target="1.8" />
       <module name="riceear-ware" target="1.8" />

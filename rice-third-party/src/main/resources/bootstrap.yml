@@ -1,6 +1,6 @@
 spring:
   application:
-    name: rice-product
+    name: rice-third-party
   profiles:
     active: dev
   cloud:
@@ -15,9 +15,6 @@ spring:
         file-extension: yaml
         refresh-enabled: true
         shared-configs:
-          - data-id: mybatisplus-${spring.profiles.active}.yaml
-            group: rice-mall-common
-            refresh: true
           - data-id: qiniuyun-${spring.profiles.active}.yaml
             group: rice-mall-common
             refresh: true
@@ -25,11 +22,6 @@ spring:
 #          - data-id: content-service-${spring.profiles.active}.yaml
 #            group: xuecheng-plus-project
 #            refresh: true
-mybatis-plus:
-  global-config:
-    db-config:
-      logic-delete-value: 0
-      logic-not-delete-value: 1
 
 
 
