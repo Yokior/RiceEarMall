@@ -1,5 +1,6 @@
 package com.rice.ricethirdparty.Controller;
 
+import com.rice.common.utils.R;
 import com.rice.ricethirdparty.utils.QiOssClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +23,10 @@ public class FileController
     private QiOssClient qiOssClient;
 
     @GetMapping("/getUploadToken")
-    public Map<String, String> getUploadToken()
+    public R getUploadToken()
     {
         HashMap<String, String> map = new HashMap<>();
         map.put("uploadToken", qiOssClient.getUpToken());
-        return map;
+        return R.ok().put("data", map);
     }
 }
