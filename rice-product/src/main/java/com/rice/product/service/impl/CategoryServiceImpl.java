@@ -3,9 +3,7 @@ package com.rice.product.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -50,7 +48,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         List<CategoryEntity> lv1Category = categoryList.stream()
                 .filter(c -> c.getParentCid() == 0)
                 .peek(categoryEntity -> categoryEntity.setChildren(getChildren(categoryEntity, categoryList)))
-                .sorted((m1, m2) -> {
+                .sorted((m1, m2) ->
+                {
                     return (m1.getSort() == null ? 0 : m1.getSort()) - (m2.getSort() == null ? 0 : m2.getSort());
                 })
                 .collect(Collectors.toList());
@@ -66,6 +65,32 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         baseMapper.deleteBatchIds(menuList);
     }
 
+    @Override
+    public Long[] findCatelogPath(Long catelogId)
+    {
+        List<Long> paths = new ArrayList<>();
+
+        getParentPath(catelogId, paths);
+
+        Collections.reverse(paths);
+        return paths.toArray(new Long[0]);
+    }
+
+    private void getParentPath(Long catelogId, List<Long> paths)
+    {
+        CategoryEntity category = this.getById(catelogId);
+        paths.add(catelogId);
+
+        Long parentCid = category.getParentCid();
+        if (parentCid != 0)
+        {
+            // 没有到最高级 继续查找
+            getParentPath(parentCid, paths);
+        }
+
+        // 已经到最高级 结束
+    }
+
 
     private List<CategoryEntity> getChildren(CategoryEntity categoryEntity, List<CategoryEntity> categoryList)
     {
@@ -76,7 +101,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 .filter(c -> catId.equals(c.getParentCid()))
                 // 处理子分类的子分类
                 .peek(category -> category.setChildren(getChildren(category, categoryList)))
-                .sorted((m1, m2) -> {
+                .sorted((m1, m2) ->
+                {
                     return (m1.getSort() == null ? 0 : m1.getSort()) - (m2.getSort() == null ? 0 : m2.getSort());
                 })
                 .collect(Collectors.toList());
