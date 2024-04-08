@@ -43,6 +43,7 @@ public class RiceExceptionHandler
     public R exceptionHandler(Exception e)
     {
         log.error("系统异常>>>{},{}", e.getClass(), e.getMessage());
+        e.printStackTrace();
         return R.error(BizCodeEnum.UNKNOW_EXCEPTION);
     }
 

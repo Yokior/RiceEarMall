@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.rice.product.service.CategoryService;
+import com.rice.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
