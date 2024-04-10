@@ -3,6 +3,7 @@ package com.rice.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.rice.product.vo.AttrRespVo;
 import com.rice.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +29,13 @@ public class AttrController
     private AttrService attrService;
 
 
-    @GetMapping("/base/list/{categoryId}")
+    @GetMapping("/{attrType}/list/{categoryId}")
     public R baseAttrList(@RequestParam Map<String, Object> params,
-                          @PathVariable("categoryId") Long categoryId)
+                          @PathVariable("categoryId") Long categoryId,
+                          @PathVariable("attrType") String attrType
+                          )
     {
-        PageUtils page = attrService.queryBaseAttrPage(params, categoryId);
+        PageUtils page = attrService.queryBaseAttrPage(params, categoryId, attrType);
         return R.ok().put("page", page);
     }
 
@@ -56,9 +59,11 @@ public class AttrController
     @RequestMapping("/info/{attrId}")
     public R info(@PathVariable("attrId") Long attrId)
     {
-        AttrEntity attr = attrService.getById(attrId);
+//        AttrEntity attr = attrService.getById(attrId);
 
-        return R.ok().put("attr", attr);
+        AttrRespVo respVo  = attrService.getAttrInfo(attrId);
+
+        return R.ok().put("attr", respVo);
     }
 
     /**
@@ -78,9 +83,9 @@ public class AttrController
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody AttrEntity attr)
+    public R update(@RequestBody AttrVo attrVo)
     {
-        attrService.updateById(attr);
+        attrService.updateAttr(attrVo);
 
         return R.ok();
     }
