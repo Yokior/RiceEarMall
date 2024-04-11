@@ -3,9 +3,11 @@ package com.rice.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rice.common.utils.PageUtils;
 import com.rice.product.entity.AttrEntity;
+import com.rice.product.vo.AttrGroupRelationVo;
 import com.rice.product.vo.AttrRespVo;
 import com.rice.product.vo.AttrVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,5 +28,11 @@ public interface AttrService extends IService<AttrEntity> {
     AttrRespVo getAttrInfo(Long attrId);
 
     void updateAttr(AttrVo attrVo);
+
+    List<AttrEntity> getRelationAttr(Long attrgroupId);
+
+    void deleteRelation(List<AttrGroupRelationVo> relationVoList);
+
+    PageUtils getNoRelationAttr(Map<String, Object> params, Long attrgroupId);
 }
 

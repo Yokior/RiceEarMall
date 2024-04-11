@@ -1,16 +1,16 @@
 package com.rice.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.rice.product.entity.AttrEntity;
+import com.rice.product.service.AttrService;
 import com.rice.product.service.CategoryService;
+import com.rice.product.vo.AttrGroupRelationVo;
 import com.rice.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.rice.product.entity.AttrGroupEntity;
 import com.rice.product.service.AttrGroupService;
@@ -34,6 +34,34 @@ public class AttrGroupController
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private AttrService attrService;
+
+
+    @PostMapping("/attr/relation/delete")
+    public R deleteRelation(@RequestBody List<AttrGroupRelationVo> relationVoList)
+    {
+        attrService.deleteRelation(relationVoList);
+        return R.ok();
+    }
+
+
+    @GetMapping("/{attrgroupId}/attr/relation")
+    public R attrRelation(@PathVariable("attrgroupId") Long attrgroupId)
+    {
+        List<AttrEntity> attrList = attrService.getRelationAttr(attrgroupId);
+        return R.ok().put("data", attrList);
+    }
+
+
+    @GetMapping("/{attrgroupId}/noattr/relation")
+    public R attrNoRelation(@RequestParam Map<String, Object> params, @PathVariable("attrgroupId") Long attrgroupId)
+    {
+        PageUtils page = attrService.getNoRelationAttr(params, attrgroupId);
+        return R.ok().put("page", page);
+    }
+
 
     /**
      * 列表

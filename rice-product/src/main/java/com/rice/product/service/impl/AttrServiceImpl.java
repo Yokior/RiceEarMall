@@ -10,6 +10,7 @@ import com.rice.product.entity.AttrAttrgroupRelationEntity;
 import com.rice.product.entity.AttrGroupEntity;
 import com.rice.product.entity.CategoryEntity;
 import com.rice.product.service.CategoryService;
+import com.rice.product.vo.AttrGroupRelationVo;
 import com.rice.product.vo.AttrRespVo;
 import com.rice.product.vo.AttrVo;
 import org.apache.commons.lang.StringUtils;
@@ -208,7 +209,93 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         }
 
 
+    }
 
+    /**
+     * 根据分组id获取关联的所有基本属性
+     *
+     * @param attrgroupId
+     * @return
+     */
+    @Override
+    public List<AttrEntity> getRelationAttr(Long attrgroupId)
+    {
+        LambdaQueryWrapper<AttrAttrgroupRelationEntity> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(AttrAttrgroupRelationEntity::getAttrGroupId, attrgroupId);
+
+        List<AttrAttrgroupRelationEntity> relationList = relationDao.selectList(lqw);
+
+        // 获取所有attrId
+        List<Long> attrIdList = relationList.stream()
+                .map(AttrAttrgroupRelationEntity::getAttrId)
+                .collect(Collectors.toList());
+
+        if (attrIdList.isEmpty())
+        {
+            return null;
+        }
+
+        // 根据id查询
+        List<AttrEntity> attrEntityList = this.listByIds(attrIdList);
+
+        return attrEntityList;
+    }
+
+    @Override
+    public void deleteRelation(List<AttrGroupRelationVo> relationVoList)
+    {
+        List<AttrAttrgroupRelationEntity> relationList = relationVoList.stream()
+                .map(re ->
+                {
+                    AttrAttrgroupRelationEntity relation = new AttrAttrgroupRelationEntity();
+                    relation.setAttrId(re.getAttrId());
+                    relation.setAttrGroupId(re.getAttrGroupId());
+                    return relation;
+                })
+                .collect(Collectors.toList());
+        relationDao.deleteBatchRelation(relationList);
+    }
+
+    @Override
+    public PageUtils getNoRelationAttr(Map<String, Object> params, Long attrgroupId)
+    {
+        //  1. 当前分组只能关联自己所属的分类里面的所有属性
+        AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrgroupId);
+        Long catelogId = attrGroupEntity.getCatelogId();
+
+        //  2. 当前分组只能关联别的分组没有引用的属性(包括去除自己的属性)
+        List<AttrGroupEntity> group = attrGroupDao.selectList(new LambdaQueryWrapper<AttrGroupEntity>().eq(AttrGroupEntity::getCatelogId, catelogId));
+
+        // 当前分类下的其他分组的id集合
+        List<Long> collect = group.stream()
+                .map(AttrGroupEntity::getAttrGroupId)
+                .collect(Collectors.toList());
+
+        // 这些分组关联的属性
+        List<AttrAttrgroupRelationEntity> relationList = relationDao.selectList(new LambdaQueryWrapper<AttrAttrgroupRelationEntity>().in(AttrAttrgroupRelationEntity::getAttrGroupId, collect));
+        List<Long> attrIdList = relationList.stream()
+                .map(AttrAttrgroupRelationEntity::getAttrId)
+                .collect(Collectors.toList());
+
+        // 去除这些属性
+        LambdaQueryWrapper<AttrEntity> lqw = new LambdaQueryWrapper<AttrEntity>().eq(AttrEntity::getCatelogId, catelogId).eq(AttrEntity::getAttrType, ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode());
+
+        if (!attrIdList.isEmpty())
+        {
+            lqw.notIn(AttrEntity::getAttrId, attrIdList);
+        }
+
+        String key = (String) params.get("key");
+        if (StringUtils.isNotBlank(key))
+        {
+            lqw.and(t -> t.eq(AttrEntity::getAttrId, key).or().like(AttrEntity::getAttrName, key));
+        }
+
+        IPage<AttrEntity> page = this.page(new Query<AttrEntity>().getPage(params), lqw);
+
+        PageUtils pageUtils = new PageUtils(page);
+
+        return pageUtils;
     }
 
 }
