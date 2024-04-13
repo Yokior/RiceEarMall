@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.rice.product.entity.AttrEntity;
+import com.rice.product.service.AttrAttrgroupRelationService;
 import com.rice.product.service.AttrService;
 import com.rice.product.service.CategoryService;
 import com.rice.product.vo.AttrGroupRelationVo;
@@ -37,6 +38,18 @@ public class AttrGroupController
 
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private AttrAttrgroupRelationService relationService;
+
+
+    @PostMapping("/attr/relation")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> relationVoList)
+    {
+        relationService.saveBatchRelation(relationVoList);
+
+        return R.ok();
+    }
 
 
     @PostMapping("/attr/relation/delete")
