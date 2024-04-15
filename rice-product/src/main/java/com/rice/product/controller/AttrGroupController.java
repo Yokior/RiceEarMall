@@ -9,6 +9,7 @@ import com.rice.product.service.AttrAttrgroupRelationService;
 import com.rice.product.service.AttrService;
 import com.rice.product.service.CategoryService;
 import com.rice.product.vo.AttrGroupRelationVo;
+import com.rice.product.vo.AttrGroupWithAttrsVo;
 import com.rice.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,16 @@ public class AttrGroupController
 
     @Autowired
     private AttrAttrgroupRelationService relationService;
+
+
+    @GetMapping("/{catelogId}/withattr")
+    public R getAttrGroupWithAttrs(@PathVariable("catelogId") Long catelogId)
+    {
+        List<AttrGroupWithAttrsVo> attrGroupWithAttrsVoList = attrGroupService.getAttrGroupWithAttrsByCatelogId(catelogId);
+
+        return R.ok().put("data", attrGroupWithAttrsVoList);
+    }
+
 
 
     @PostMapping("/attr/relation")

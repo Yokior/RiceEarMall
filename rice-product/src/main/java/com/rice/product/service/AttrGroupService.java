@@ -3,8 +3,10 @@ package com.rice.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rice.common.utils.PageUtils;
 import com.rice.product.entity.AttrGroupEntity;
+import com.rice.product.vo.AttrGroupWithAttrsVo;
 import com.rice.product.vo.AttrVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,5 +23,6 @@ public interface AttrGroupService extends IService<AttrGroupEntity>
 
     PageUtils queryPageInfo(Map<String, Object> params, Long categoryId);
 
+    List<AttrGroupWithAttrsVo> getAttrGroupWithAttrsByCatelogId(Long catelogId);
 }
 
