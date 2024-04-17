@@ -1,6 +1,10 @@
 package com.rice.product.service.impl;
 
+import com.rice.common.to.SkuReductionTo;
+import com.rice.common.to.SpuBoundTo;
+import com.rice.common.utils.R;
 import com.rice.product.entity.*;
+import com.rice.product.feign.CouponFeignService;
 import com.rice.product.service.*;
 import com.rice.product.vo.*;
 import org.springframework.beans.BeanUtils;
@@ -43,6 +47,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     @Autowired
     private SkuSaleAttrValueService skuSaleAttrValueService;
 
+    @Autowired
+    private CouponFeignService couponFeignService;
+
 
     @Override
     public PageUtils queryPage(Map<String, Object> params)
@@ -84,6 +91,16 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
 
         // 保存spu的积分信息 pms_spu_bounds
+        Bounds bounds = vo.getBounds();
+        SpuBoundTo spuBoundTo = new SpuBoundTo();
+        BeanUtils.copyProperties(bounds, spuBoundTo);
+        spuBoundTo.setSpuId(spuId);
+        R r1 = couponFeignService.saveSpuBounds(spuBoundTo);
+        if (r1.getCode() != 0)
+        {
+            log.error("远程保存spu积分信息失败");
+        }
+
 
         // 保存spu的对应的sku信息
 
@@ -144,10 +161,19 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
                 skuSaleAttrValueService.saveBatch(skuSaleAttrValueList);
 
+                // -保存sku的优惠信息
+                SkuReductionTo skuReductionTo = new SkuReductionTo();
+                BeanUtils.copyProperties(sku, skuReductionTo);
+                skuReductionTo.setSkuId(skuId);
+
+                R r2 = couponFeignService.saveSkuReduction(skuReductionTo);
+                if (r2.getCode() != 0)
+                {
+                    log.error("远程保存sku的优惠信息失败");
+                }
             });
         }
 
-        // -保存sku的优惠信息 rice_sms
 
 
     }
