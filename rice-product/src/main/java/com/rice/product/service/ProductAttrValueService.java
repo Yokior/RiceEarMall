@@ -3,7 +3,9 @@ package com.rice.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rice.common.utils.PageUtils;
 import com.rice.product.entity.ProductAttrValueEntity;
+import com.rice.product.vo.BaseAttrs;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +18,7 @@ import java.util.Map;
 public interface ProductAttrValueService extends IService<ProductAttrValueEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void saveBaseAttr(Long spuId, List<BaseAttrs> baseAttrs);
 }
 
