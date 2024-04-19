@@ -31,7 +31,7 @@ public class SkuFullReductionController
      * 列表
      */
     @PostMapping("/saveInfo")
-    public R saveInfo(@RequestParam SkuReductionTo skuReductionTo)
+    public R saveInfo(@RequestBody SkuReductionTo skuReductionTo)
     {
 
         skuFullReductionService.saveSkuReduction(skuReductionTo);

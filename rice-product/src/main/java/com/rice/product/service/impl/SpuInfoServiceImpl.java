@@ -7,10 +7,13 @@ import com.rice.product.entity.*;
 import com.rice.product.feign.CouponFeignService;
 import com.rice.product.service.*;
 import com.rice.product.vo.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -69,6 +72,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         // 保存spu基本信息 pms_spu_info
         SpuInfoEntity spuInfoEntity = new SpuInfoEntity();
         BeanUtils.copyProperties(vo, spuInfoEntity);
+        spuInfoEntity.setCreateTime(LocalDateTime.now());
+        spuInfoEntity.setUpdateTime(LocalDateTime.now());
         this.saveBaseSpuInfo(spuInfoEntity);
 
 
@@ -108,7 +113,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         List<Skus> skus = vo.getSkus();
         if (skus != null && skus.size() > 0)
         {
-            skus.forEach(sku -> {
+            skus.forEach(sku ->
+            {
                 SkuInfoEntity skuInfoEntity = new SkuInfoEntity();
                 BeanUtils.copyProperties(sku, skuInfoEntity);
 
@@ -142,6 +148,11 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                             // 判断是否是默认图片 是就设置
                             return skuImagesEntity;
                         })
+                        .filter(entity ->
+                        {
+                            // 没有图片路径的无需保存
+                            return StringUtils.isNotBlank(entity.getImgUrl());
+                        })
                         .collect(Collectors.toList());
 
                 skuImagesService.saveBatch(skuImagesList);
@@ -166,14 +177,17 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 BeanUtils.copyProperties(sku, skuReductionTo);
                 skuReductionTo.setSkuId(skuId);
 
-                R r2 = couponFeignService.saveSkuReduction(skuReductionTo);
-                if (r2.getCode() != 0)
+                if (skuReductionTo.getFullCount() > 0 || skuReductionTo.getFullPrice().compareTo(new BigDecimal("0")) == 1)
                 {
-                    log.error("远程保存sku的优惠信息失败");
+                    R r2 = couponFeignService.saveSkuReduction(skuReductionTo);
+                    if (r2.getCode() != 0)
+                    {
+                        log.error("远程保存sku的优惠信息失败");
+                    }
                 }
+
             });
         }
-
 
 
     }
