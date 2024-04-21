@@ -1,5 +1,6 @@
 package com.rice.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rice.common.to.SkuReductionTo;
 import com.rice.common.to.SpuBoundTo;
 import com.rice.common.utils.R;
@@ -190,6 +191,44 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }
 
 
+    }
+
+    @Override
+    public PageUtils queryPageByCondition(Map<String, Object> params)
+    {
+
+        LambdaQueryWrapper<SpuInfoEntity> lqw = new LambdaQueryWrapper<>();
+
+        String key = (String) params.get("key");
+        if (!StringUtils.isEmpty(key))
+        {
+            lqw.and((wq) -> wq.eq(SpuInfoEntity::getId, key).or().like(SpuInfoEntity::getSpuName, key));
+        }
+
+        String status = (String) params.get("status");
+        if (!StringUtils.isEmpty(status))
+        {
+            lqw.eq(SpuInfoEntity::getPublishStatus, status);
+        }
+
+        String brandId = (String) params.get("brandId");
+        if (!StringUtils.isEmpty(brandId) && !"0".equals(brandId))
+        {
+            lqw.eq(SpuInfoEntity::getBrandId, brandId);
+        }
+
+        String catelogId = (String) params.get("catelogId");
+        if (!StringUtils.isEmpty(catelogId) && !"0".equals(catelogId))
+        {
+            lqw.eq(SpuInfoEntity::getCatalogId, catelogId);
+        }
+
+
+        IPage<SpuInfoEntity> page = this.page(
+                new Query<SpuInfoEntity>().getPage(params),
+                lqw
+        );
+        return new PageUtils(page);
     }
 
 

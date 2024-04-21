@@ -3,7 +3,7 @@ package com.rice.ricethirdparty;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.rice"})
 public class RiceThirdPartyApplication
 {
 

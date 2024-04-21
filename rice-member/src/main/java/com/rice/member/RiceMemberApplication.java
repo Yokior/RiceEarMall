@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableFeignClients(basePackages = {"com.rice.member.feign"})
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.rice"})
 public class RiceMemberApplication
 {
 
