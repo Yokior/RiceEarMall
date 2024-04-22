@@ -2,9 +2,11 @@ package com.rice.ware.controller;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.rice.ware.vo.MergeVo;
+import com.rice.ware.vo.PurchaseDoneVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,34 @@ public class PurchaseController
 {
     @Autowired
     private PurchaseService purchaseService;
+
+
+    /**
+     * 完成采购单
+     * @param entities
+     * @return
+     */
+    @PostMapping("/done")
+    public R done(@RequestBody PurchaseDoneVo vo)
+    {
+        purchaseService.done(vo);
+        return R.ok();
+    }
+
+
+    /**
+     * 领取采购单
+     * @param ids
+     * @return
+     */
+    @PostMapping("/receive")
+    public R receive(@RequestBody List<Long> ids)
+    {
+        purchaseService.receivePurchase(ids);
+        return R.ok();
+    }
+
+
 
 
     @PostMapping("/merge")

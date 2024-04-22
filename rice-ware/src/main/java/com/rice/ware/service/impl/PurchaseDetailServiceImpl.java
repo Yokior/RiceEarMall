@@ -1,9 +1,11 @@
 package com.rice.ware.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.rice.ware.entity.PurchaseEntity;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -58,6 +60,19 @@ public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailDao, Pu
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<PurchaseDetailEntity> listDetailByPurchaseId(PurchaseEntity item)
+    {
+        LambdaQueryWrapper<PurchaseDetailEntity> lqw = new LambdaQueryWrapper<>();
+
+        lqw.eq(PurchaseDetailEntity::getPurchaseId, item.getId());
+
+        List<PurchaseDetailEntity> purchaseDetailEntityList = this.list(lqw);
+
+
+        return purchaseDetailEntityList;
     }
 
 }
