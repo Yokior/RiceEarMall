@@ -1,5 +1,6 @@
 package com.rice.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rice.product.service.AttrService;
 import com.rice.product.vo.BaseAttrs;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,4 +61,32 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao
         this.saveBatch(collect);
 
     }
+
+    @Override
+    public List<ProductAttrValueEntity> baseAttrlistforspu(Long spuId)
+    {
+        LambdaQueryWrapper<ProductAttrValueEntity> lqw = new LambdaQueryWrapper<>();
+
+        lqw.eq(ProductAttrValueEntity::getSpuId, spuId);
+
+        return this.list(lqw);
+    }
+
+    @Override
+    public void updateSpuAttr(Long spuId, List<ProductAttrValueEntity> productAttrList)
+    {
+        LambdaQueryWrapper<ProductAttrValueEntity> lqw = new LambdaQueryWrapper<>();
+
+        lqw.eq(ProductAttrValueEntity::getSpuId, spuId);
+
+        remove(lqw);
+
+        List<ProductAttrValueEntity> collect = productAttrList.stream()
+                .peek(p -> p.setSpuId(spuId))
+                .collect(Collectors.toList());
+
+        saveBatch(collect);
+    }
+
+
 }
