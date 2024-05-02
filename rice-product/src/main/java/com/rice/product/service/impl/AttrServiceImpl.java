@@ -298,4 +298,16 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         return pageUtils;
     }
 
+    @Override
+    public List<Long> selectSearchAttrIds(List<Long> attrIds)
+    {
+        LambdaQueryWrapper<AttrEntity> lqw = new LambdaQueryWrapper<>();
+
+        lqw.in(AttrEntity::getAttrId, attrIds).eq(AttrEntity::getSearchType, ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode());
+
+        List<AttrEntity> attrEntities = this.list(lqw);
+        return attrEntities.stream().map(AttrEntity::getAttrId).collect(Collectors.toList());
+
+    }
+
 }
