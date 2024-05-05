@@ -2,12 +2,14 @@ package com.rice.product.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.rice.common.constant.ProductConstant;
 import com.rice.common.to.SkuReductionTo;
 import com.rice.common.to.SpuBoundTo;
 import com.rice.common.to.es.SkuEsModel;
 import com.rice.common.utils.R;
 import com.rice.product.entity.*;
 import com.rice.product.feign.CouponFeignService;
+import com.rice.product.feign.SearchFeignService;
 import com.rice.product.feign.WareFeignService;
 import com.rice.product.service.*;
 import com.rice.product.vo.*;
@@ -70,6 +72,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Autowired
     private WareFeignService wareFeignService;
+
+    @Autowired
+    private SearchFeignService searchFeignService;
 
 
     @Override
@@ -251,9 +256,6 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     @Override
     public void up(Long spuId)
     {
-        ArrayList<SkuEsModel> upProducts = new ArrayList<>();
-
-        SkuEsModel skuEsModel = new SkuEsModel();
         List<SkuInfoEntity> skuInfoEntityList = skuInfoService.getSkusBySpuId(spuId);
         List<Long> skuIds = skuInfoEntityList.stream()
                 .map(SkuInfoEntity::getSkuId)
@@ -325,8 +327,23 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 })
                 .collect(Collectors.toList());
 
-        // TODO 将数据发送给ES保存
-
+        // 将数据发送给ES保存
+        R r = searchFeignService.productStatusUp(esModelList);
+        if (r.getCode() == 0)
+        {
+            // 上架成功
+            // 更改spu的状态
+            SpuInfoEntity spuInfoEntity = new SpuInfoEntity();
+            spuInfoEntity.setId(spuId);
+            spuInfoEntity.setPublishStatus(ProductConstant.StatusEnum.SPU_UP.getCode());
+            spuInfoEntity.setUpdateTime(LocalDateTime.now());
+            updateById(spuInfoEntity);
+        }
+        else
+        {
+            // 上架失败
+            // TODO 重复调用 接口幂等性
+        }
     }
 
 

@@ -30,9 +30,10 @@ public class R<T> extends HashMap<String, Object>
         return data;
     }
 
-    public void setData(T data)
+    public R setData(T data)
     {
         this.data = data;
+        return this;
     }
 
     public R()
