@@ -1,5 +1,6 @@
 package com.rice.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +75,17 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
         Collections.reverse(paths);
         return paths.toArray(new Long[0]);
+    }
+
+    @Override
+    public List<CategoryEntity> getLevel1Categories()
+    {
+        LambdaQueryWrapper<CategoryEntity> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(CategoryEntity::getParentCid, 0);
+
+        List<CategoryEntity> categoryEntityList = list(lqw);
+
+        return categoryEntityList;
     }
 
     private void getParentPath(Long catelogId, List<Long> paths)
