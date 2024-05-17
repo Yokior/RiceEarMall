@@ -18,9 +18,14 @@ spring:
           - data-id: mybatisplus-${spring.profiles.active}.yaml
             group: rice-mall-common
             refresh: true
+          - data-id: redis-${spring.profiles.active}.yaml
+            group: rice-mall-common
+            refresh: true
           - data-id: qiniuyun-${spring.profiles.active}.yaml
             group: rice-mall-common
             refresh: true
+  cache:
+    type: redis
 #        extension-configs:
 #          - data-id: content-service-${spring.profiles.active}.yaml
 #            group: xuecheng-plus-project
