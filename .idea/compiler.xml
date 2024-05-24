@@ -11,6 +11,7 @@
         <module name="rice-member" />
         <module name="rice-order" />
         <module name="rice-common" />
+        <module name="rice-auth" />
         <module name="rice-coupon" />
         <module name="rice-product" />
         <module name="rice-ware" />
@@ -24,6 +25,7 @@
     <bytecodeTargetLevel>
       <module name="renren-fast" target="1.8" />
       <module name="renren-generator" target="1.8" />
+      <module name="rice-auth" target="1.8" />
       <module name="rice-common" target="8" />
       <module name="rice-coupon" target="1.8" />
       <module name="rice-gateway" target="1.8" />
