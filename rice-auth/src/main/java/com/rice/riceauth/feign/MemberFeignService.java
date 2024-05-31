@@ -1,6 +1,7 @@
 package com.rice.riceauth.feign;
 
 import com.rice.common.utils.R;
+import com.rice.riceauth.vo.UserLoginVo;
 import com.rice.riceauth.vo.UserRegistVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,4 +17,7 @@ public interface MemberFeignService
 {
     @PostMapping("/member/member/regist")
     R regist(@RequestBody UserRegistVo vo);
+
+    @PostMapping("/member/member/userlogin")
+    R userlogin(@RequestBody UserLoginVo vo);
 }

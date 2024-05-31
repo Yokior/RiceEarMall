@@ -5,6 +5,7 @@ import com.rice.common.utils.PageUtils;
 import com.rice.member.entity.MemberEntity;
 import com.rice.member.exception.PhoneExistException;
 import com.rice.member.exception.UsernameExistException;
+import com.rice.member.vo.MemberLoginVo;
 import com.rice.member.vo.MemberRegistVo;
 
 import java.util.Map;
@@ -25,5 +26,7 @@ public interface MemberService extends IService<MemberEntity> {
     void checkMobileUnique(String mobile) throws PhoneExistException;
 
     void checkUsernameUnique(String username) throws UsernameExistException;
+
+    MemberEntity login(MemberLoginVo vo);
 }
 

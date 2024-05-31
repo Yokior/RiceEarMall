@@ -5,7 +5,9 @@ import com.rice.member.dao.MemberLevelDao;
 import com.rice.member.entity.MemberLevelEntity;
 import com.rice.member.exception.PhoneExistException;
 import com.rice.member.exception.UsernameExistException;
+import com.rice.member.vo.MemberLoginVo;
 import com.rice.member.vo.MemberRegistVo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -89,6 +91,40 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         {
             throw new UsernameExistException();
         }
+    }
+
+    @Override
+    public MemberEntity login(MemberLoginVo vo)
+    {
+        String loginacct = vo.getLoginacct();
+        String password = vo.getPassword();
+
+        if (StringUtils.isBlank(loginacct) || StringUtils.isBlank(password))
+        {
+            return null;
+        }
+
+        // 数据库查询
+        LambdaQueryWrapper<MemberEntity> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(MemberEntity::getUsername, loginacct);
+        lqw.or().eq(MemberEntity::getMobile, loginacct);
+
+        MemberEntity memberEntity = getOne(lqw);
+        if (memberEntity == null)
+        {
+            return null;
+        }
+
+        // 对比密码
+        String dbPassword = memberEntity.getPassword();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        boolean matches = passwordEncoder.matches(password, dbPassword);
+        if (!matches)
+        {
+            return null;
+        }
+
+        return memberEntity;
     }
 
 }

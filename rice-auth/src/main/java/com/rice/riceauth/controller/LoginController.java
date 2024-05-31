@@ -3,6 +3,7 @@ package com.rice.riceauth.controller;
 import com.alibaba.fastjson.JSON;
 import com.rice.common.utils.R;
 import com.rice.riceauth.feign.MemberFeignService;
+import com.rice.riceauth.vo.UserLoginVo;
 import com.rice.riceauth.vo.UserRegistVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,27 @@ public class LoginController
 
     @Autowired
     private MemberFeignService memberFeignService;
+
+
+    @PostMapping("/userlogin")
+    public String userlogin(UserLoginVo vo, RedirectAttributes redirectAttributes)
+    {
+        R r = memberFeignService.userlogin(vo);
+        if (r.getCode() == 0)
+        {
+            return "redirect:https://www.baidu.com";
+        }
+        else
+        {
+            HashMap<String, String> errors = new HashMap<>();
+            errors.put("msg", r.getMsg());
+            redirectAttributes.addFlashAttribute("errors", errors);
+            return "redirect:/login";
+        }
+
+    }
+
+
 
     @PostMapping("/regist")
     public String register(@Validated UserRegistVo vo, BindingResult result, RedirectAttributes redirectAttributes, HttpSession session)

@@ -7,6 +7,7 @@ import com.rice.common.exception.BizCodeEnum;
 import com.rice.member.exception.PhoneExistException;
 import com.rice.member.exception.UsernameExistException;
 import com.rice.member.feign.CouponFeignService;
+import com.rice.member.vo.MemberLoginVo;
 import com.rice.member.vo.MemberRegistVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,21 @@ public class MemberController
 
     @Autowired
     private CouponFeignService couponFeignService;
+
+
+    @PostMapping("/userlogin")
+    public R userlogin(@RequestBody MemberLoginVo vo)
+    {
+        MemberEntity entity = memberService.login(vo);
+        if (entity == null)
+        {
+            return R.error(BizCodeEnum.LOGINACCT_PASSWORD_INVALID_EXCEPTION);
+        }
+        else
+        {
+            return R.ok();
+        }
+    }
 
 
     @PostMapping("/regist")
