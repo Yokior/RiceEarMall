@@ -3,6 +3,9 @@ package com.rice.member.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rice.common.utils.PageUtils;
 import com.rice.member.entity.MemberEntity;
+import com.rice.member.exception.PhoneExistException;
+import com.rice.member.exception.UsernameExistException;
+import com.rice.member.vo.MemberRegistVo;
 
 import java.util.Map;
 
@@ -16,5 +19,11 @@ import java.util.Map;
 public interface MemberService extends IService<MemberEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void regist(MemberRegistVo vo) throws PhoneExistException, UsernameExistException;
+
+    void checkMobileUnique(String mobile) throws PhoneExistException;
+
+    void checkUsernameUnique(String username) throws UsernameExistException;
 }
 

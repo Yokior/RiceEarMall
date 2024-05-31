@@ -14,6 +14,8 @@ spring:
         group: rice-mall-project
         file-extension: yaml
         refresh-enabled: true
+  thymeleaf:
+    cache: false
 #        shared-configs:
 #          - data-id: mybatisplus-${spring.profiles.active}.yaml
 #            group: rice-mall-common
@@ -22,7 +24,6 @@ spring:
 #          - data-id: content-service-${spring.profiles.active}.yaml
 #            group: xuecheng-plus-project
 #            refresh: true
-
 
 
 
