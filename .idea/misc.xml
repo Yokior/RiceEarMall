@@ -17,6 +17,7 @@
         <option value="$PROJECT_DIR$/rice-third-party/pom.xml" />
         <option value="$PROJECT_DIR$/rice-search/pom.xml" />
         <option value="$PROJECT_DIR$/rice-auth/pom.xml" />
+        <option value="$PROJECT_DIR$/rice-cart/pom.xml" />
       </list>
     </option>
   </component>

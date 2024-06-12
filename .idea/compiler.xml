@@ -8,24 +8,26 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="rice-member" />
-        <module name="rice-order" />
         <module name="rice-common" />
         <module name="rice-auth" />
         <module name="rice-coupon" />
         <module name="rice-product" />
-        <module name="rice-ware" />
-        <module name="renren-fast" />
         <module name="rice-search" />
+        <module name="rice-cart" />
         <module name="rice-gateway" />
         <module name="renren-generator" />
         <module name="rice-third-party" />
+        <module name="rice-member" />
+        <module name="rice-order" />
+        <module name="rice-ware" />
+        <module name="renren-fast" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="renren-fast" target="1.8" />
       <module name="renren-generator" target="1.8" />
       <module name="rice-auth" target="1.8" />
+      <module name="rice-cart" target="1.8" />
       <module name="rice-common" target="8" />
       <module name="rice-coupon" target="1.8" />
       <module name="rice-gateway" target="1.8" />
